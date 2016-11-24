@@ -16,7 +16,8 @@ class ViewController: UIViewController {
     
     var date: Date? = nil
     
-
+    // Just testing a little bit
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
