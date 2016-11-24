@@ -1,0 +1,6 @@
+framework module Pods_teslatest {
+  umbrella header "Pods-teslatest-umbrella.h"
+
+  export *
+  module * { export * }
+}
