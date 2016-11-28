@@ -78,16 +78,26 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V13-p2-QST">
-                                <rect key="frame" x="70" y="338" width="54" height="30"/>
+                                <rect key="frame" x="49" y="331" width="93" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Boka bil"/>
                                 <connections>
                                     <action selector="bokaBilWasClicked:" destination="d3t-Xw-taU" eventType="touchUpInside" id="i7N-qA-WYi"/>
                                 </connections>
                             </button>
+                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="30" translatesAutoresizingMaskIntoConstraints="NO" id="CMM-Ik-E1p">
+                                <rect key="frame" x="0.0" y="451" width="375" height="216"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <date key="date" timeIntervalSinceReferenceDate="502015425.32233602">
+                                    <!--2016-11-28 08:43:45 +0000-->
+                                </date>
+                                <locale key="locale" localeIdentifier="sv"/>
+                            </datePicker>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MKW-3S-4gC">
-                                <rect key="frame" x="194" y="338" width="152" height="30"/>
+                                <rect key="frame" x="182" y="331" width="170" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Registrera avbokad bil"/>
                                 <connections>
                                     <action selector="registreraAvbokadBilWasClicked:" destination="d3t-Xw-taU" eventType="touchUpInside" id="uNc-7g-uMT"/>
@@ -104,12 +114,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="datePicker" destination="CMM-Ik-E1p" id="2sD-TM-TNa"/>
                         <outlet property="titleText" destination="Zx0-lT-L7U" id="vFv-EK-1Qs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v7N-59-0qz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="297" y="676"/>
+            <point key="canvasLocation" x="296.80000000000001" y="675.11244377811101"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="LrE-4r-ZVA">

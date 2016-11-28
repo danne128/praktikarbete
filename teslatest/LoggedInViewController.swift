@@ -22,8 +22,13 @@ class LoggedInViewController: UIViewController {
     
     var array1: [Date] = []
     var array2: [Date] = []
+    var array3: [String] = []
+    var array4: [String] = []
     
     @IBOutlet weak var titleText: UINavigationItem!
+
+    @IBOutlet weak var datePicker: UIDatePicker!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +41,7 @@ class LoggedInViewController: UIViewController {
                 titleText.title = "\(firstName) \(lastName)"
             }
             
-            getLocations()
+            //getLocations()
             
         }
         else {
@@ -109,15 +114,10 @@ class LoggedInViewController: UIViewController {
         
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    
+    
+    
+    
     
     
     @IBAction func logOutWasPressed(_ sender: Any) {
@@ -127,12 +127,116 @@ class LoggedInViewController: UIViewController {
     
     
     @IBAction func bokaBilWasClicked(_ sender: Any) {
-        
         // Boka bil
-        let today = Date()
+        array1 = []
+        array2 = []
+        array3 = [""]
+        array4 = [""]
+        print("\n")
+        
+        datePicker.datePickerMode = UIDatePickerMode.dateAndTime
+        let datum = datePicker.date
+        
+        let today = datum
         let tomorrow = Calendar.current.date(byAdding: .day, value: 6, to: today as Date)
         
-        let query = PFQuery(className: "Inventory")
+        let query = PFQuery(className: "UpcomingBookings")
+        query.includeKey("Inventory")
+        query.findObjectsInBackground { (objects, error) in
+            
+            if error != nil {
+                print(error!.localizedDescription as Any)
+            }
+            else {
+                
+                if objects!.count > 0 {
+                    
+                    if let returnedObjects = objects {
+                        
+                        for object in returnedObjects {
+                            
+                            self.array1.append(object["StartDate"] as! Date)
+                            self.array2.append(object["EndDate"] as! Date)
+                            let inventory = object["BookedCars"]! as! PFObject
+                            let objectId = inventory.objectId!
+                            self.array3.append(objectId)
+                        }
+                    }
+                    
+                    for i in 0..<self.array1.count {
+                        
+                        if today > self.array1[i] && tomorrow! < self.array2[i] {
+                            print("Start och slut ligger i en annan bokning")
+                            //self.array3.remove(at: i)
+                            self.array4.append(self.array3[i])
+                        }
+                        else if today < self.array1[i] && (tomorrow! < self.array2[i] && tomorrow! > self.array1[i]) {
+                            print("Slut tiden ligger i en annan bokning")
+                            //self.array3.remove(at: i)
+                            self.array4.append(self.array3[i])
+                        }
+                        else if today > self.array1[i] && (tomorrow! > self.array2[i] && today < self.array2[i]) {
+                            print("Start tiden ligger i en annan bokning")
+                            //self.array3.remove(at: i)
+                            self.array4.append(self.array3[i])
+                        }
+                        else if today < self.array1[i] && tomorrow! > self.array2[i] {
+                            print("Din bokning ligger över en annan")
+                            //self.array3.remove(at: i)
+                            self.array4.append(self.array3[i])
+                        }
+
+                    }
+                    
+                    let newQuery = PFQuery(className: "Inventory")
+                    //newQuery.whereKey("objectId", notEqualTo: "\(self.array3)")
+                    newQuery.whereKey("objectId", notContainedIn: self.array4)
+                    newQuery.findObjectsInBackground(block: { (newObject, newError) in
+                        if error != nil {
+                            print(error!.localizedDescription as Any)
+                        }
+                        else {
+                            if let newReturnedObjects = newObject {
+                                
+                                for newObject in newReturnedObjects {
+                                    print(newObject["Model"])
+                                    print(newObject.objectId!)
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                    })
+                    
+                }
+                else {
+                
+                    let newQuery = PFQuery(className: "Inventory")
+                    newQuery.findObjectsInBackground(block: { (objects, error) in
+                        if error != nil {
+                            print(error!.localizedDescription as Any)
+                        }
+                        else {
+                            
+                            if let returnedObjects = objects {
+                                
+                                for object in returnedObjects {
+                                    print(object["Model"])
+                                }
+                                
+                            }
+                            
+                        }
+                    })
+                    
+                }
+                
+            }
+            
+        }
+        
+        /*let query = PFQuery(className: "Inventory")
         //query.includeKey("Location")
         query.getFirstObjectInBackground { (object, error) in
             
@@ -239,7 +343,7 @@ class LoggedInViewController: UIViewController {
                     }
                 }
             }
-        }
+        }*/
         
         
         
